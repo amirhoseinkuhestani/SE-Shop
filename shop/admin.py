@@ -12,6 +12,5 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ["title","note"]
     list_filter = ["is_active","category"]
 
-
-admin.site.register(Category,CategoryAdmin)
-admin.site.register(Product,ProductAdmin)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Product, ProductAdmin)
