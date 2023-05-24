@@ -34,6 +34,13 @@ class CustomUserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ('user', 'message', 'created_at', 'notification_type')
+    list_filter = ('notification_type',)
+    search_fields = ('user__username', 'user__email', 'message')
+    readonly_fields = ('created_at',)
+
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(Notification, NotificationAdmin)
