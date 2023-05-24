@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import *
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -12,7 +13,27 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ["title","note"]
     list_filter = ["is_active","category"]
 
+
+class CustomUserAdmin(BaseUserAdmin):
+    model = User
+    list_display = ('username', 'email', 'phone_number', 'is_admin')
+    list_filter = ('is_admin',)
+    fieldsets = (
+    (None, {'fields': ('username', 'email', 'phone_number', 'password')}),
+    ('Personal info', {'fields': ('first_name', 'last_name', 'iban', 'national_id')}),
+    ('Permissions', {'fields': ('is_admin',)}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'email', 'phone_number', 'password1', 'password2'),
+        }),
+    )
+    search_fields = ('email', 'username', 'phone_number')
+    ordering = ('email',)
+    filter_horizontal = ()
+
+
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
-admin.site.register(User)
-admin.site.register(Admin)
+admin.site.register(User, CustomUserAdmin)

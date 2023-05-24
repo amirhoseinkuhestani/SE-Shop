@@ -109,8 +109,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         return f"{self.first_name} {self.last_name}"
 
 
-    # def get_full_name(self):
-    #     return f"{self.first_name} {self.last_name}"
+    def get_full_name(self):
+         return f"{self.first_name} {self.last_name}"
 
     def __str__(self):
         return self.get_full_name()
@@ -119,6 +119,6 @@ class Admin(User):
     admin_username = models.CharField(max_length=100, unique=True, verbose_name="نام کاربری مدیر")
 
     def __str__(self):
-        return f"{self.name} ({self.admin_username})"
+        return f"{self.full_name} ({self.admin_username})"
 
    
