@@ -1,1 +1,14 @@
-home.html file
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <h1>Welcome to the Home Page</h1>
+    {% if user.is_authenticated %}
+        <a href="{% url 'shop:profile' %}">Profile</a>
+    {% else %}
+        <a href="{% url 'shop:login' %}">Log in / Sign Up</a>
+    {% endif %}
+</body>
+</html>

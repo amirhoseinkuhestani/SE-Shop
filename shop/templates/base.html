@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Page Title{% endblock %}</title>
+    <!-- Add your CSS and JS imports here -->
+</head>
+<body>
+    <header>
+        <!-- Add your header content here -->
+        <nav>
+            <ul>
+                <li><a href="{% url 'shop:home' %}">Home</a></li>
+                <!-- Add more navigation links as needed -->
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        <!-- Default content if not overridden in child templates -->
+        {% endblock %}
+    </main>
+    <footer>
+        <!-- Add your footer content here -->
+        <p>&copy; 2023 Your Website. All rights reserved.</p>
+    </footer>
+</body>
+</html>

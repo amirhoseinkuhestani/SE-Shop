@@ -12,18 +12,13 @@ class Category(models.Model):
         return self.title
 
 class Product(models.Model):
-    PRODUCT_CHOICE =(
-        ('D','دیجیتال'),
-        ('K','کتاب'),
-        ('B','بچه گانه')
-    )
     COLORS_CHOICE = (
         ('R' , 'قرمز'),
         ('B','آبی'),
         ('G','سبز')
     )
     title = models.CharField(max_length=200, verbose_name="عنوان", blank=False, null=False)
-    thumbnail = models.ImageField(upload_to="images")
+    thumbnail = models.ImageField()
     category = models.ForeignKey(Category, on_delete=models.SET_DEFAULT, default=None, null=True, verbose_name="دسته بندی")
     quantity = models.PositiveIntegerField(verbose_name="تعداد")
     price = models.PositiveIntegerField(verbose_name="قیمت", help_text="تومن")
@@ -32,9 +27,8 @@ class Product(models.Model):
     discount = models.PositiveIntegerField(verbose_name="تخفیف", default=0, validators=[MinValueValidator(0),MaxValueValidator(100)],help_text="درصد تخفیف")
     discount_price=models.PositiveIntegerField(verbose_name="مبلغ نهایی", default=None, null=True, blank=True, editable=False)
     colors=models.CharField(max_length=1,choices=COLORS_CHOICE)
-    product_type=models.CharField(max_length=1,choices=PRODUCT_CHOICE)
-    is_active = models.BooleanField(verbose_name="فعال", default=True)
     slug = models.SlugField(max_length=100,unique=True)
+    is_active = models.BooleanField(verbose_name="فعال", default=True)
 
     def __str__(self):
         return self.title
@@ -76,8 +70,8 @@ class UserManager(BaseUserManager):
 # class User(AbstractUser):
 class User(AbstractBaseUser, PermissionsMixin):
     phone_regex = RegexValidator(
-        regex=r'^\+?1?\d{9,15}$',
-        message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
+        regex=r'^\d{11}$',
+        message="Phone number must be entered in the format: '+9380330561'. Up to 11 digits allowed."
     )
     iban_regex = RegexValidator(
         regex=r'^[A-Z]{2}\d{2}[A-Z0-9]{1,30}$',
@@ -133,4 +127,21 @@ class Notification(models.Model):
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     notification_type = models.CharField(max_length=12, choices=NOTIFICATION_TYPE_CHOICES)
-   
+
+class Ticket(models.Model):
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def str(self):
+        return self.subject
+
+class TicketReply(models.Model):
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, related_name='replies')
+    reply_message = models.TextField()
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def str(self):
+        return f"Reply to: {self.ticket.subject}"

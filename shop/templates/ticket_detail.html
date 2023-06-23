@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ticket Detail</title>
+</head>
+<body>
+    <h1>Ticket Detail</h1>
+    <p><strong>Subject:</strong> {{ ticket.subject }}</p>
+    <p><strong>Message:</strong> {{ ticket.message }}</p>
+
+
+    <h2>Replies:</h2>
+    {% for reply in replies %}
+        <p>{{ reply.reply_message }}</p>
+
+    {% endfor %}
+
+    <h2>Reply to Ticket:</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Reply</button>
+    </form>
+</body>
+</html>

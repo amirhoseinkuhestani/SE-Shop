@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Ticket List</h1>
+  {% for ticket in tickets %}
+    <p><a href="{% url 'shop:ticket_detail' ticket.id %}">Subject: {{ ticket.subject }}</a></p>
+    <p>Message: {{ ticket.message }}</p>
+  {% empty %}
+    <p>No tickets found.</p>
+  {% endfor %}
+{% endblock %}

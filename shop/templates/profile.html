@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+    <h1>Profile</h1>
+    <p>Welcome, {{ user.username }}!</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Phone Number: {{ user.phone_number }}</p>
+
+
+    <h2>Tickets</h2>
+    <ul>
+      <li><a href="{% url 'shop:ticket_list' %}">Ticket List</a></li>
+      <li><a href="{% url 'shop:create_ticket' %}">Create Ticket</a></li>
+    </ul>
+
+    <a href="{% url 'shop:logout' %}">Sign Out</a>
+{% endblock %}
